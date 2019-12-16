@@ -22,7 +22,7 @@ VERBOSE="$5"
 LANGUAGE=$(echo "$LANGUAGE" | tr [:upper:] [:lower:])
 COUNTER=1
 MAX_RETRY=15
-ORGS="manufacturer"
+ORGS="manufacturer distributor retailer consumer transporter"
 
 if [ "$LANGUAGE" = "node" ]; then
   CC_SRC_PATH="/opt/gopath/src/github.com/hyperledger/fabric/peer/chaincode/"
@@ -42,7 +42,7 @@ createChannel() {
     set +x
   else
     set -x
-    peer channel create -o orderer.certification-network.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log.txt
+    peer channel create -o orderer.pharma-network.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log.txt
     res=$?
     set +x
   fi
@@ -57,7 +57,7 @@ joinChannel() {
   for org in $ORGS; do
     for peer in 0 1; do
       joinChannelWithRetry $peer $org
-      echo "===================== peer${peer}.${org}.certification-network.com  joined channel '$CHANNEL_NAME' ===================== "
+      echo "===================== peer${peer}.${org}.pharma-network.com  joined channel '$CHANNEL_NAME' ===================== "
       sleep $DELAY
       echo
     done
@@ -75,6 +75,14 @@ joinChannel
 ## Set the anchor peers for each org in the channel
 echo "Updating anchor peers for IIT..."
 updateAnchorPeers 0 'manufacturer'
+echo "Updating anchor peers for IIT..."
+updateAnchorPeers 0 'distributor'
+echo "Updating anchor peers for IIT..."
+updateAnchorPeers 0 'retailer'
+echo "Updating anchor peers for IIT..."
+updateAnchorPeers 0 'consumer'
+echo "Updating anchor peers for IIT..."
+updateAnchorPeers 0 'transporter'
 
 echo
 echo "========= All GOOD, Hyperledger Fabric Certification Network Is Now Up and Running! =========== "

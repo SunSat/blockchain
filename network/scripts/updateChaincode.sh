@@ -21,7 +21,7 @@ TYPE="$5"
 : ${TYPE="basic"}
 
 LANGUAGE=`echo "$LANGUAGE" | tr [:upper:] [:lower:]`
-ORGS="manufacturer"
+ORGS="manufacturer distributor retailer consumer transporter"
 TIMEOUT=15
 
 if [ "$TYPE" = "basic" ]; then
@@ -38,6 +38,14 @@ echo "New Version : "$VERSION
 ## Install new version of chaincode on peer0 of all 3 orgs making them endorsers
 echo "Updating chaincode on peer0.iit.certification-network.com ..."
 installChaincode 0 'manufacturer' $VERSION
+echo "Updating chaincode on peer0.iit.certification-network.com ..."
+installChaincode 0 'distributor' $VERSION
+echo "Updating chaincode on peer0.iit.certification-network.com ..."
+installChaincode 0 'retailer' $VERSION
+echo "Updating chaincode on peer0.iit.certification-network.com ..."
+installChaincode 0 'consumer' $VERSION
+echo "Updating chaincode on peer0.iit.certification-network.com ..."
+installChaincode 0 'transporter' $VERSION
 
 # Upgrade chaincode on the channel using peer0.iit
 echo "Upgrading chaincode on channel using peer0.iit.certification-network.com ..."

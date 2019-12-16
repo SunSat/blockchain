@@ -176,14 +176,14 @@ function networkDown() {
   # Don't remove the generated artifacts -- note, the ledgers are always removed
   if [ "$MODE" != "restart" ]; then
     # Bring down the network, deleting the volumes
-    #Delete any ledger backups
+    # Delete any ledger backups
     docker run -v "$PWD":/tmp/pharmanetworkchannel --rm hyperledger/fabric-tools:"$IMAGETAG" rm -Rf /tmp/pharmanetworkchannel/ledgers-backup
     #Cleanup the chaincode containers
     clearContainers
     #Cleanup images
     removeUnwantedImages
     # remove orderer block and other channel configuration transactions and certs
-    rm -rf channel-artifacts/*.block channel-artifacts/*.tx crypto-config
+    rm -rf channel-artifacts/* crypto-config/*
   fi
 }
 
@@ -220,12 +220,17 @@ function replacePrivateKey() {
   sed $OPTS "s/UPGRAD_CA_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yml
   # If MacOSX, remove the temporary backup of the docker-compose file
   if [ "$ARCH" == "Darwin" ]; then
-    rm docker-compose-e2e.ymlt
+    rm docker-compose-e2e.yml
   fi
 }
 
 # Generates Org certs using cryptogen tool
 function generateCerts() {
+
+  rm -rf channel-artifacts/*
+  echo 'Removed Channel-Artificate Files successfully.'
+  rm -rf crypto-config/*
+  echo 'Removed Crypto-Config Files successfully.'
   which cryptogen
   if [ "$?" -ne 0 ]; then
     echo "cryptogen tool not found. exiting"
@@ -266,7 +271,7 @@ function generateChannelArtifacts() {
   # Note: For some unknown reason (at least for now) the block file can't be
   # named orderer.genesis.block or the orderer will fail to launch!
   set -x
-  configtxgen -profile OrdererGenesis -channelID upgrad-sys-channel -outputBlock ./channel-artifacts/genesis.block
+  configtxgen -profile OrdererGenesis -channelID pharnetchannel -outputBlock ./channel-artifacts/genesis.block
   sleep 1
   res=$?
   set +x
@@ -285,7 +290,7 @@ function generateChannelArtifacts() {
   set +x
   if [ $res -ne 0 ]; then
     echo "Failed to generate channel configuration transaction..."
-    exit 177
+    exit 1
   fi
 
   echo
@@ -301,6 +306,63 @@ function generateChannelArtifacts() {
     echo "Failed to generate anchor peer update for IIT..."
     exit 1
   fi
+
+  echo
+  echo "#################################################################"
+  echo "#######    Generating anchor peer update for iitMSP   ##########"
+  echo "#################################################################"
+  set -x
+  configtxgen -profile PharmaNetworkChannel -outputAnchorPeersUpdate ./channel-artifacts/distributorMSPanchors.tx -channelID "$CHANNEL_NAME" -asOrg distributorMSP
+  sleep 1
+  res=$?
+  set +x
+  if [ $res -ne 0 ]; then
+    echo "Failed to generate anchor peer update for IIT..."
+    exit 1
+  fi
+
+    echo
+  echo "#################################################################"
+  echo "#######    Generating anchor peer update for iitMSP   ##########"
+  echo "#################################################################"
+  set -x
+  configtxgen -profile PharmaNetworkChannel -outputAnchorPeersUpdate ./channel-artifacts/retailerMSPanchors.tx -channelID "$CHANNEL_NAME" -asOrg retailerMSP
+  sleep 1
+  res=$?
+  set +x
+  if [ $res -ne 0 ]; then
+    echo "Failed to generate anchor peer update for IIT..."
+    exit 1
+  fi
+
+    echo
+  echo "#################################################################"
+  echo "#######    Generating anchor peer update for iitMSP   ##########"
+  echo "#################################################################"
+  set -x
+  configtxgen -profile PharmaNetworkChannel -outputAnchorPeersUpdate ./channel-artifacts/consumerMSPanchors.tx -channelID "$CHANNEL_NAME" -asOrg consumerMSP
+  sleep 1
+  res=$?
+  set +x
+  if [ $res -ne 0 ]; then
+    echo "Failed to generate anchor peer update for IIT..."
+    exit 1
+  fi
+
+    echo
+  echo "#################################################################"
+  echo "#######    Generating anchor peer update for iitMSP   ##########"
+  echo "#################################################################"
+  set -x
+  configtxgen -profile PharmaNetworkChannel -outputAnchorPeersUpdate ./channel-artifacts/transporterMSPanchors.tx -channelID "$CHANNEL_NAME" -asOrg transporterMSP
+  sleep 1
+  res=$?
+  set +x
+  if [ $res -ne 0 ]; then
+    echo "Failed to generate anchor peer update for IIT..."
+    exit 1
+  fi
+
 
 }
 

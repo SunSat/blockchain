@@ -6,7 +6,11 @@
 
 # This is a collection of bash functions used by different scripts
 ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/pharma-network.com/orderers/orderer.pharma-network.com/msp/tlscacerts/tlsca.pharma-network.com-cert.pem
-PEER0_IIT_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/manufacturer.pharma-network.com/peers/peer0.manufacturer.pharma-network.com/tls/ca.crt
+PEER0_manufacturer_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/manufacturer.pharma-network.com/peers/peer0.manufacturer.pharma-network.com/tls/ca.crt
+PEER0_distributor_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/distributor.pharma-network.com/peers/peer0.distributor.pharma-network.com/tls/ca.crt
+PEER0_retailer_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/retailer.pharma-network.com/peers/peer0.retailer.pharma-network.com/tls/ca.crt
+PEER0_consumer_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/consumer.pharma-network.com/peers/peer0.consumer.pharma-network.com/tls/ca.crt
+PEER0_transporter_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/transporter.pharma-network.com/peers/peer0.transporter.pharma-network.com/tls/ca.crt
 
 # verify the result of the end-to-end test
 verifyResult() {
@@ -30,12 +34,48 @@ setGlobals() {
   ORG=$2
   if [ "$ORG" == 'manufacturer' ]; then
     CORE_PEER_LOCALMSPID="manufacturerMSP"
-    CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_IIT_CA
+    CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_manufacturer_CA
     CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/manufacturer.pharma-network.com/users/Admin@manufacturer.pharma-network.com/msp
     if [ "$PEER" -eq 0 ]; then
       CORE_PEER_ADDRESS=peer0.manufacturer.pharma-network.com:7051
     else
       CORE_PEER_ADDRESS=peer1.manufacturer.pharma-network.com:8051
+    fi
+  elif [ "$ORG" == 'distributor' ]; then
+    CORE_PEER_LOCALMSPID="distributorMSP"
+    CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_distributor_CA
+    CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/distributor.pharma-network.com/users/Admin@distributor.pharma-network.com/msp
+    if [ "$PEER" -eq 0 ]; then
+      CORE_PEER_ADDRESS=peer0.distributor.pharma-network.com:9051
+    else
+      CORE_PEER_ADDRESS=peer1.distributor.pharma-network.com:10051
+    fi
+  elif [ "$ORG" == 'retailer' ]; then
+    CORE_PEER_LOCALMSPID="retailerMSP"
+    CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_retailer_CA
+    CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/retailer.pharma-network.com/users/Admin@retailer.pharma-network.com/msp
+    if [ "$PEER" -eq 0 ]; then
+      CORE_PEER_ADDRESS=peer0.retailer.pharma-network.com:11051
+    else
+      CORE_PEER_ADDRESS=peer1.retailer.pharma-network.com:12051
+    fi
+  elif [ "$ORG" == 'consumer' ]; then
+    CORE_PEER_LOCALMSPID="consumerMSP"
+    CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_consumer_CA
+    CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/consumer.pharma-network.com/users/Admin@consumer.pharma-network.com/msp
+    if [ "$PEER" -eq 0 ]; then
+      CORE_PEER_ADDRESS=peer0.consumer.pharma-network.com:13051
+    else
+      CORE_PEER_ADDRESS=peer1.consumer.pharma-network.com:14051
+    fi
+  elif [ "$ORG" == 'transporter' ]; then
+    CORE_PEER_LOCALMSPID="transporterMSP"
+    CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_transporter_CA
+    CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/transporter.pharma-network.com/users/Admin@transporter.pharma-network.com/msp
+    if [ "$PEER" -eq 0 ]; then
+      CORE_PEER_ADDRESS=peer0.transporter.pharma-network.com:15051
+    else
+      CORE_PEER_ADDRESS=peer1.transporter.pharma-network.com:16051
     fi
   else
     echo "================== ERROR !!! ORG Unknown =================="
@@ -54,7 +94,7 @@ updateAnchorPeers() {
     set +x
   else
     set -x
-    peer channel update -o orderer.certification-network.com:7050 -c "$CHANNEL_NAME" -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx --tls "$CORE_PEER_TLS_ENABLED" --cafile $ORDERER_CA >&log.txt
+    peer channel update -o orderer.pharma-network.com:7050 -c "$CHANNEL_NAME" -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx --tls "$CORE_PEER_TLS_ENABLED" --cafile $ORDERER_CA >&log.txt
     res=$?
     set +x
   fi
@@ -113,7 +153,7 @@ instantiateChaincode() {
   # the "-o" option
   if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
     set -x
-    peer chaincode instantiate -o orderer.pharma-network.com:7050 -C "$CHANNEL_NAME" -n pharmanet -l "${LANGUAGE}" -v "${VERSION}" -c '{"Args":["org.pharma-network.pharmanet:instantiate"]}' -P "OR ('manufacturerMSP.member')" >&log.txt
+    peer chaincode instantiate -o orderer.pharma-network.com:7050 -C "$CHANNEL_NAME" -n pharmanet -l "${LANGUAGE}" -v "${VERSION}" -c '{"Args":["org.pharma-network.pharmanet:instantiate"]}' -P "OR ('manufacturerMSP.member','distributorMSP.member','retailerMSP.member','consumerMSP.member','transporterMSP.member')" >&log.txt
     res=$?
     set +x
   else

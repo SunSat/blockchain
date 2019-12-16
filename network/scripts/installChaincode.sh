@@ -21,7 +21,7 @@ TYPE="$5"
 : ${TYPE="basic"}
 
 LANGUAGE=`echo "$LANGUAGE" | tr [:upper:] [:lower:]`
-ORGS="manufacturer"
+ORGS="manufacturer distributor retailer consumer transporter"
 TIMEOUT=15
 
 if [ "$TYPE" = "basic" ]; then
@@ -38,6 +38,24 @@ echo "Channel name : "$CHANNEL_NAME
 ## Install new version of chaincode on peer0 of all 3 orgs making them endorsers
 echo "Installing chaincode on peer0.manufacturer.pharma-network.com ..."
 installChaincode 0 'manufacturer' $VERSION
+echo "Installing chaincode on peer0.manufacturer.pharma-network.com ..."
+installChaincode 1 'manufacturer' $VERSION
+echo "Installing chaincode on peer0.manufacturer.pharma-network.com ..."
+installChaincode 0 'distributor' $VERSION
+echo "Installing chaincode on peer0.manufacturer.pharma-network.com ..."
+installChaincode 1 'distributor' $VERSION
+echo "Installing chaincode on peer0.manufacturer.pharma-network.com ..."
+installChaincode 0 'retailer' $VERSION
+echo "Installing chaincode on peer0.manufacturer.pharma-network.com ..."
+installChaincode 1 'retailer' $VERSION
+echo "Installing chaincode on peer0.manufacturer.pharma-network.com ..."
+installChaincode 0 'consumer' $VERSION
+echo "Installing chaincode on peer0.manufacturer.pharma-network.com ..."
+installChaincode 1 'consumer' $VERSION
+echo "Installing chaincode on peer0.manufacturer.pharma-network.com ..."
+installChaincode 0 'transporter' $VERSION
+echo "Installing chaincode on peer0.manufacturer.pharma-network.com ..."
+installChaincode 1 'transporter' $VERSION
 
 # Instantiate chaincode on the channel using peer0.iit
 echo "Instantiating chaincode on channel using peer0.manufacturer.pharma-network.com ..."

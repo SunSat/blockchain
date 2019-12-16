@@ -6,7 +6,7 @@ class CertnetContract extends Contract {
 	
 	constructor() {
 		// Provide a custom name to refer to this smart contract
-		super('org.pharma-network.pharmanet');
+		super('org.pharma-network.phanetwork.student');
 	}
 	
 	/* ****** All custom functions are defined below ***** */
@@ -14,7 +14,7 @@ class CertnetContract extends Contract {
 	// This is a basic user defined function used at the time of instantiating the smart contract
 	// to print the success message on console
 	async instantiate(ctx) {
-		console.log('Certnet Smart Contract Instantiated');
+		console.log('Pharma Network Smart Contract Instantiated');
 	}
 	
 	/**

@@ -32,6 +32,79 @@ Organizations:
       - Host: peer0.manufacturer.pharma-network.com
         Port: 7051
 
+  - &distributor
+    Name: distributorMSP
+    ID: distributorMSP
+    MSPDir: crypto-config/peerOrganizations/distributor.pharma-network.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('distributorMSP.admin', 'distributorMSP.peer', 'distributorMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('distributorMSP.admin', 'distributorMSP.peer', 'distributorMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('distributorMSP.admin', 'distributorMSP.peer', 'distributorMSP.client')"
+    AnchorPeers:
+      - Host: peer0.distributor.pharma-network.com
+        Port: 9051
+
+  - &retailer
+    Name: retailerMSP
+    ID: retailerMSP
+    MSPDir: crypto-config/peerOrganizations/retailer.pharma-network.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('retailerMSP.admin', 'retailerMSP.peer', 'retailerMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('retailerMSP.admin', 'retailerMSP.peer', 'retailerMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('retailerMSP.admin', 'retailerMSP.peer', 'retailerMSP.client')"
+    AnchorPeers:
+      - Host: peer0.retailer.pharma-network.com
+        Port: 11051
+
+  - &consumer
+    Name: consumerMSP
+    ID: consumerMSP
+    MSPDir: crypto-config/peerOrganizations/consumer.pharma-network.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('consumerMSP.admin', 'consumerMSP.peer', 'consumerMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('consumerMSP.admin', 'consumerMSP.peer', 'consumerMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('consumerMSP.admin', 'consumerMSP.peer', 'consumerMSP.client')"
+    AnchorPeers:
+      - Host: peer0.consumer.pharma-network.com
+        Port: 13051
+
+  - &transporter
+    Name: transporterMSP
+    ID: transporterMSP
+    MSPDir: crypto-config/peerOrganizations/transporter.pharma-network.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('transporterMSP.admin', 'transporterMSP.peer', 'transporterMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('transporterMSP.admin', 'transporterMSP.peer', 'transporterMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('transporterMSP.admin', 'transporterMSP.peer', 'transporterMSP.client')"
+    AnchorPeers:
+      - Host: peer0.transporter.pharma-network.com
+        Port: 15051
+
+
 #Capabilities
 
 Capabilities:
@@ -126,6 +199,10 @@ Profiles:
       PharmaNetConsortium:
         Organizations:
           - *manufacturer
+          - *distributor
+          - *retailer
+          - *consumer
+          - *transporter
 
   PharmaNetworkChannel:
     Consortium: PharmaNetConsortium
@@ -133,6 +210,9 @@ Profiles:
       <<: *ApplicationDefaults
       Organizations:
         - *manufacturer
+        - *distributor
+        - *retailer
+        - *consumer
+        - *transporter
       Capabilities:
         <<: *ApplicationCapabilities
-        
