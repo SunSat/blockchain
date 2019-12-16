@@ -1,0 +1,235 @@
+Useful CLIs : 
+docker rm -f $(docker ps -aq) 
+
+. fabricNetwork.sh down
+. fabricNetwork.sh up
+
+docker rm -f $(docker ps -aq) && docker rmi -f $(docker images | grep dev | awk '{print $3}') && docker volume prune
+
+docker stop $(docker ps -q)
+docker system prune
+y
+docker rm $(docker ps -a -q)
+docker image prune -a
+y
+docker volume prune
+y
+docker network prune
+y
+docker rmi -f $(docker images -a -q)
+docker system prune -a --volumes
+y
+docker rm -f $(docker ps -aq) 
+
+cd /Users/sathishkumar_su/personal/blockchain/fabric/drug-couterfeiting/network
+
+. fabricNetwork.sh up -v 1.1
+y
+docker exec -it chaincode /bin/bash
+npm install
+npm run start-dev
+
+. fabricNetwork.sh install -v 1.2
+
+
+
+move channel-artifacts & crypto-config folder to different name. So that we can generate again.
+
+
+mkdir channel-artifacts
+cd channel-artifacts
+
+
+rm -rf crypto-config/*
+rm -rf channel-artifacts/*
+cryptogen generate --config=./crypto-config.yaml
+
+configtxgen -profile OrdererGenesis -outputBlock ./channel-artifacts/genesis.block
+configtxgen -profile PharmaNetworkChannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID pharmanetworkchannel
+configtxgen -profile PharmaNetworkChannel -outputAnchorPeersUpdate ./channel-artifacts/manufacturerMSPanchors.tx -channelID pharmanetworkchannel -asOrg manufacturerMSP
+configtxgen -profile PharmaNetworkChannel -outputAnchorPeersUpdate ./channel-artifacts/distributorMSPanchors.tx -channelID pharmanetworkchannel -asOrg distributorMSP
+configtxgen -profile PharmaNetworkChannel -outputAnchorPeersUpdate ./channel-artifacts/retailerMSPanchors.tx -channelID pharmanetworkchannel -asOrg retailerMSP
+configtxgen -profile PharmaNetworkChannel -outputAnchorPeersUpdate ./channel-artifacts/consumerMSPanchors.tx -channelID pharmanetworkchannel -asOrg consumerMSP
+configtxgen -profile PharmaNetworkChannel -outputAnchorPeersUpdate ./channel-artifacts/transporterMSPanchors.tx -channelID pharmanetworkchannel -asOrg transporterMSP
+
+docker-compose -f ./docker-compose-e2e.yml up -d
+docker ps -a
+
+
+docker exec -it cli /bin/bash
+
+CORE_PEER_LOCALMSPID="manufacturerMSP"
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/manufacturer.pharma-network.com/users/Admin@manufacturer.pharma-network.com/msp
+CORE_PEER_ADDRESS=peer0.manufacturer.pharma-network.com:7051
+
+peer channel create -o orderer.pharma-network.com:7050 -c pharmanetworkchannel -f ./channel-artifacts/channel.tx
+
+peer channel join -b pharmanetworkchannel.block
+CORE_PEER_ADDRESS=peer1.manufacturer.pharma-network.com:8051
+peer channel join -b pharmanetworkchannel.block
+
+CORE_PEER_LOCALMSPID="distributorMSP"
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/distributor.pharma-network.com/users/Admin@distributor.pharma-network.com/msp
+CORE_PEER_ADDRESS=peer0.distributor.pharma-network.com:9051
+peer channel join -b pharmanetworkchannel.block
+
+CORE_PEER_LOCALMSPID="distributorMSP"
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/distributor.pharma-network.com/users/Admin@distributor.pharma-network.com/msp
+CORE_PEER_ADDRESS=peer1.distributor.pharma-network.com:10051
+peer channel join -b pharmanetworkchannel.block
+
+CORE_PEER_LOCALMSPID="retailerMSP"
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/retailer.pharma-network.com/users/Admin@retailer.pharma-network.com/msp
+CORE_PEER_ADDRESS=peer0.retailer.pharma-network.com:11051
+peer channel join -b pharmanetworkchannel.block
+
+CORE_PEER_LOCALMSPID="retailerMSP"
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/retailer.pharma-network.com/users/Admin@retailer.pharma-network.com/msp
+CORE_PEER_ADDRESS=peer1.retailer.pharma-network.com:12051
+peer channel join -b pharmanetworkchannel.block
+
+CORE_PEER_LOCALMSPID="consumerMSP"
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/consumer.pharma-network.com/users/Admin@consumer.pharma-network.com/msp
+CORE_PEER_ADDRESS=peer0.consumer.pharma-network.com:13051
+peer channel join -b pharmanetworkchannel.block
+
+CORE_PEER_LOCALMSPID="consumerMSP"
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/consumer.pharma-network.com/users/Admin@consumer.pharma-network.com/msp
+CORE_PEER_ADDRESS=peer1.consumer.pharma-network.com:14051
+peer channel join -b pharmanetworkchannel.block
+
+CORE_PEER_LOCALMSPID="transporterMSP"
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/transporter.pharma-network.com/users/Admin@transporter.pharma-network.com/msp
+CORE_PEER_ADDRESS=peer0.transporter.pharma-network.com:15051
+peer channel join -b pharmanetworkchannel.block
+
+CORE_PEER_LOCALMSPID="transporterMSP"
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/transporter.pharma-network.com/users/Admin@transporter.pharma-network.com/msp
+CORE_PEER_ADDRESS=peer1.transporter.pharma-network.com:16051
+peer channel join -b pharmanetworkchannel.block
+
+#Ancher Pear Updates.
+
+CORE_PEER_LOCALMSPID="manufacturerMSP"
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/manufacturer.pharma-network.com/users/Admin@manufacturer.pharma-network.com/msp
+CORE_PEER_ADDRESS=peer0.manufacturer.pharma-network.com:7051
+peer channel update -o orderer.pharma-network.com:7050 -c pharmanetworkchannel -f ./channel-artifacts/manufacturerMSPanchors.tx
+
+CORE_PEER_LOCALMSPID="distributorMSP"
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/distributor.pharma-network.com/users/Admin@distributor.pharma-network.com/msp
+CORE_PEER_ADDRESS=peer0.distributor.pharma-network.com:9051
+peer channel update -o orderer.pharma-network.com:7050 -c pharmanetworkchannel -f ./channel-artifacts/distributorMSPanchors.tx
+
+CORE_PEER_LOCALMSPID="retailerMSP"
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/retailer.pharma-network.com/users/Admin@retailer.pharma-network.com/msp
+CORE_PEER_ADDRESS=peer1.retailer.pharma-network.com:11051
+peer channel update -o orderer.pharma-network.com:7050 -c pharmanetworkchannel -f ./channel-artifacts/retailerMSPanchors.tx
+
+CORE_PEER_LOCALMSPID="consumerMSP"
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/consumer.pharma-network.com/users/Admin@consumer.pharma-network.com/msp
+CORE_PEER_ADDRESS=peer0.consumer.pharma-network.com:13051
+peer channel update -o orderer.pharma-network.com:7050 -c pharmanetworkchannel -f ./channel-artifacts/consumerMSPanchors.tx
+
+CORE_PEER_LOCALMSPID="transporterMSP"
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/transporter.pharma-network.com/users/Admin@transporter.pharma-network.com/msp
+CORE_PEER_ADDRESS=peer0.transporter.pharma-network.com:15051
+peer channel update -o orderer.pharma-network.com:7050 -c pharmanetworkchannel -f ./channel-artifacts/transporterMSPanchors.tx
+
+
+docker exec -it chaincode /bin/bash
+npm install
+npm run start-dev
+
+NPM Strted successflly. But Need to install pharmanet.1.1 atleast one time. Hence Open new terminal and connect with cli. 
+Installing the chin code
+
+docker exec -it cli /bin/bash
+
+CORE_PEER_LOCALMSPID="manufacturerMSP"
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/manufacturer.pharma-network.com/users/Admin@manufacturer.pharma-network.com/msp
+CORE_PEER_ADDRESS=peer0.manufacturer.pharma-network.com:7051
+peer chaincode install -n pharmanet -v 1.1 -l node -p /opt/gopath/src/github.com/hyperledger/fabric/peer/chaincode/
+
+CORE_PEER_LOCALMSPID="distributorMSP"
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/distributor.pharma-network.com/users/Admin@distributor.pharma-network.com/msp
+CORE_PEER_ADDRESS=peer0.distributor.pharma-network.com:9051
+peer chaincode install -n pharmanet -v 1.1 -l node -p /opt/gopath/src/github.com/hyperledger/fabric/peer/chaincode/
+
+CORE_PEER_LOCALMSPID="retailerMSP"
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/retailer.pharma-network.com/users/Admin@retailer.pharma-network.com/msp
+CORE_PEER_ADDRESS=peer1.retailer.pharma-network.com:11051
+peer chaincode install -n pharmanet -v 1.1 -l node -p /opt/gopath/src/github.com/hyperledger/fabric/peer/chaincode/
+
+CORE_PEER_LOCALMSPID="consumerMSP"
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/consumer.pharma-network.com/users/Admin@consumer.pharma-network.com/msp
+CORE_PEER_ADDRESS=peer0.consumer.pharma-network.com:13051
+peer chaincode install -n pharmanet -v 1.1 -l node -p /opt/gopath/src/github.com/hyperledger/fabric/peer/chaincode/
+
+CORE_PEER_LOCALMSPID="transporterMSP"
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/transporter.pharma-network.com/users/Admin@transporter.pharma-network.com/msp
+CORE_PEER_ADDRESS=peer0.transporter.pharma-network.com:15051
+peer chaincode install -n pharmanet -v 1.1 -l node -p /opt/gopath/src/github.com/hyperledger/fabric/peer/chaincode/
+
+
+docker exec -it cli /bin/bash
+Instantiation of chin code container.
+CORE_PEER_LOCALMSPID="manufacturerMSP"
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/manufacturer.pharma-network.com/users/Admin@manufacturer.pharma-network.com/msp
+CORE_PEER_ADDRESS=peer0.manufacturer.pharma-network.com:7051
+peer chaincode instantiate -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -l node -v 1.1 -c '{"Args":["org.pharma-network.pharmanet:instantiate"]}' -P "OR ('manufacturerMSP.member','distributorMSP.member','retailerMSP.member','consumerMSP.member','transporterMSP.member')"
+
+Install and Instantiate both were done.
+
+Now check the logs
+New Terminal:
+docker logs peer0.consumer.pharma-network.com
+
+
+
+Invoke the function.
+New Terminal:
+
+docker exec -it peer0.manufacturer.pharma-network.com /bin/bash
+docker exec -it peer0.consumer.pharma-network.com /bin/bash
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n phanetwork -c '{"Args":["manufacturerContract:registerCompany","M-4","Sathish Kumar","chennai","manufacturer"]}'
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n phanetwork -c '{"Args":["manufacturerContract:addDrug","Corex","11111","12-12-12","13-13-13","M-4"]}'
+
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n phanetwork -c '{"Args":["org.pharma-network.phanetwork.manufacture:registerCompany","M-4","Sathish Kumar","chennai","manufacturer"]}'
+
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n phanetwork -c '{"Args":["org.pharma-network.phanetwork.manufacture:registerCompany","M-4","Sathish Kumar","chennai","manufacturer"]}'
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n phanetwork -c '{"Args":["org.pharma-network.phanetwork.student:createStudent","0003","Aakash Bansal","connect@aakashbansal.com"]}'
+
+peer chaincode invoke -o orderer.certification-network.com:7050 -C certificationchannel -n certnet -c '{"Args":["org.certification-network.certnet:getStudent","0002"]}'
+ 
+peer chaincode invoke -o orderer.certification-network.com:7050 -C certificationchannel -n certnet -c '{"Args":["org.certification-network.certnet:createStudent","0003","VINOD KUMAR","test@gmail.com"]}'
+peer chaincode invoke -o orderer.certification-network.com:7050 -C certificationchannel -n certnet -c '{"Args":["org.certification-network.certnet:getStudent","999"]}'
+
+peer chaincode invoke -o orderer.certification-network.com:7050 -C certificationchannel -n certnet -c '{"Args":["org.certification-network.certnet:issueCertificate","0003", "PGDBC", "A", "asdfgh"]}'
+peer chaincode invoke -o orderer.certification-network.com:7050 -C certificationchannel -n certnet -c '{"Args":["org.certification-network.certnet:verifyCertificate","0001", "PGDBC", "asdfgh"]}'
+
+peer chaincode invoke -o orderer.certification-network.com:7050 -C certificationchannel -n certnet -c '{"Args":["org.certification-network.certnet:getCertificate","0003", "PGDBC"]}'
+
+peer chaincode invoke -o orderer.certification-network.com:7050 -C certificationchannel -n certnet -c '{"Args":["org.certification-network.certnet:verifiyCertIssuer","PGDBC-0001"]}'
+
+peer chaincode invoke -o orderer.certification-network.com:7050 -C certificationchannel -n certnet -c '{"Args":["org.certification-network.certnet:issueCertificate","999", "PGDBC", "A", "asdfgh"]}'
+
+
+peer chaincode invoke -o orderer.banking-network.com:7050 -C bankchannel -n banknet -c '{Args:[org.banking-network.banknet:createAccount,0001,Aakash Bansal,connect@aakashbansal.com,current]}'
+peer chaincode invoke -o orderer.banking-network.com:7050 -C bankchannel -n banknet -c '{"Args":["org.banking-network.banknet:createAccount","0001","Aakash Bansal","connect@aakashbansal.com","current"]}'
+
+
+Dev Mode Completed. Now Need to deploy to production enviornment.
+
+-----------
+Stop Existing dockers
+docker-compose -f ./docker-compose.yml down --volumes --remove-orphans
+
+Change docker compose.yml file. ServerTlsEnable = true
+Certificate and key file of path has to update propoperly. When using crypto-get tool this will be generated.
+
+

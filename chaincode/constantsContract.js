@@ -1,0 +1,22 @@
+module.exports = Object.freeze({
+    MANUFACTURER_NETWORK : 'manufacturer.pharma-network.com',
+    DISTRIBUTOR_NETWORK : 'distributor.pharma-network.com',
+    RETAILER_NETWORK : 'retailer.pharma-network.com',
+    CONSUMER_NETWORK : 'consumer.pharma-network.com',
+    TRANSPORTER_NETWORK : 'transporter.pharma-network.com',
+    MANUFACTURER : "manufacturer",
+    DISTRIBUTOR : 'distributor',
+    RETAILER : 'retailer',
+    CONSUMER : 'consumer',
+    TRANSPORTER : 'transporter',
+    CHANNEL : 'pharmanetworkchannel',
+    PEER0 : 'peer0',
+    PEER1 : 'peer1',
+    MANUFACTURER_MSP : 'manufacturerMSP',
+    DISTRIBUTOR_MSP: 'distributorMSP',
+    RETAILER_MSP : 'retailerMSP',
+    CONSUMER_MSP : 'consumerMSP',
+    TRANSPORTER_MSP : 'transporterMSP',
+    PHARMANET_KEY_STACKHOLDERS : 'org.pharma-network.pharmanet.stakeholders',
+    PHARMANET_KEY_DRUGS : 'org.pharma-network.pharmanet.drug'
+});
