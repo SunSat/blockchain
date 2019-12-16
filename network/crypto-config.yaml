@@ -1,0 +1,14 @@
+OrdererOrgs:
+  - Name: Orderer
+    Domain: pharma-network.com
+    Specs:
+      - Hostname: orderer
+PeerOrgs:
+ - Name: manufacturer
+   Domain: manufacturer.pharma-network.com
+   EnableNodeOUs: true
+   Template:
+      Count: 2
+   Users:
+      Count: 1
+      

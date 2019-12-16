@@ -1,2 +1,0 @@
-# blockchain
-blockchain network samples
