@@ -1,5 +1,5 @@
 'use strict';
-const Constants = require('./constantsContract');
+const Constants = require('./constants');
 
 class PharmaNetworkUtil {
 
@@ -31,6 +31,15 @@ class PharmaNetworkUtil {
             break;
         }
         return isValid;
+    }
+
+    static checkPoHierarchy(buyerOrgRole, sellerOrgRole) {
+        if(buyerOrgRole.toLowerCase() === Constants.DISTRIBUTOR) {
+            return sellerOrgRole.toLowerCase() === Constants.MANUFACTURER;
+        } else if(buyerOrgRole.toLowerCase() === Constants.RETAILER) {
+            return sellerOrgRole.toLowerCase() === Constants.DISTRIBUTOR;
+        }
+        return false;
     }
 }
 

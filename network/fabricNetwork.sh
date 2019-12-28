@@ -122,14 +122,12 @@ function checkPrereqs() {
 
 # Generate the needed certificates, the genesis block and start the network.
 function networkUp() {
-  checkPrereqs
   rm -rf channel-artifacts/*
-  # generate artifacts if they don't exist
-  if [ ! -d "crypto-config" ]; then
-    generateCerts
-    #replacePrivateKey
-    generateChannelArtifacts
-  fi
+  rm -rf crypto-config/*
+  checkPrereqs
+  generateCerts
+  #replacePrivateKey
+  generateChannelArtifacts
   # Start the docker containers using compose file
   IMAGE_TAG=$IMAGETAG docker-compose -f "$COMPOSE_FILE" up -d 2>&1
   docker ps -a
@@ -166,6 +164,12 @@ function installChaincode() {
   checkPrereqs
   docker exec cli scripts/installChaincode.sh "$CHANNEL_NAME" "$CLI_DELAY" "$LANGUAGE" "$VERSION_NO" "$TYPE"
 }
+
+function instantiateChaincode() {
+  checkPrereqs
+  docker exec cli scripts/instantiateChaincode.sh "$CHANNEL_NAME" "$CLI_DELAY" "$LANGUAGE" "$VERSION_NO" "$TYPE"
+}
+
 
 # Tear down running network
 function networkDown() {
@@ -365,7 +369,6 @@ function generateChannelArtifacts() {
 
 
 }
-
 # timeout duration - the duration the CLI should wait for a response from
 # another container before giving up
 CLI_TIMEOUT=15
@@ -374,7 +377,7 @@ CLI_DELAY=5
 # channel name defaults to "certificationchannel"
 CHANNEL_NAME="pharmanetworkchannel"
 # version for updating chaincode
-VERSION_NO=1.1
+VERSION_NO=1.0
 # type of chaincode to be installed
 TYPE="basic"
 # use this as the default docker-compose yaml definition
@@ -404,9 +407,15 @@ elif [ "$MODE" == "install" ]; then
   EXPMODE="Installing chaincode"
 elif [ "$MODE" == "generate" ]; then
   EXPMODE="Generating certs and genesis block"
+elif [ "$MODE" == "inst" ]; then
+  EXPMODE="inst"
+elif [ "$MODE" == "node" ]; then
+  EXPMODE="node"
+elif [ "$MODE" == "full" ]; then
+  EXPMODE="full"
 else
   printHelp
-  exit 1
+  exit 177
 fi
 
 while getopts "h?c:t:d:f:l:i:v:m:" opt; do
@@ -465,6 +474,20 @@ elif [ "${MODE}" == "update" ]; then ## Run the composer setup commands
   updateChaincode
 elif [ "${MODE}" == "install" ]; then ## Run the composer setup commands
   installChaincode
+elif [ "${MODE}" == "inst" ]; then ## Run the composer setup commands
+  instantiateChaincode
+elif [ "${MODE}" == "node" ]; then ## Run the composer setup commands
+  #rm -rf ../chaincode/node_modules
+  sleep 5
+  docker exec -it chaincode npm install
+elif [ "${MODE}" == "full" ]; then ## Run the composer setup commands
+  networkDown
+  networkUp
+  ttab -g docker exec -it chaincode /bin/bash
+  installChaincode
+  askProceed
+  instantiateChaincode
+  ttab -g docker exec -it peer0.manufacturer.pharma-network.com /bin/bash
 else
   printHelp
   exit 1

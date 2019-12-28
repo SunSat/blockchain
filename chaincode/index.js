@@ -1,6 +1,11 @@
 'use strict';
 
-//const contract = require('./contract.js');
-const commonContract = require('./commonContract');
-//const manufacturerContract = require('./manufactureContract');
-module.exports.contracts = [commonContract];
+const contractPharma = require('./contractPharma');
+const contractManufacturer = require('./contractManufacturer');
+const contractDistributorRetailer = require('./contractDistributorRetailer');
+
+module.exports.contractPharma = contractPharma;
+module.exports.contractManufacturer = contractManufacturer;
+module.exports.contractDistributorRetailer = contractDistributorRetailer;
+
+module.exports.contracts = [contractPharma,contractManufacturer,contractDistributorRetailer];

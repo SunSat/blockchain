@@ -17,7 +17,7 @@ TYPE="$5"
 : ${CHANNEL_NAME:="pharmanetworkchannel"}
 : ${DELAY:="5"}
 : ${LANGUAGE:="node"}
-: ${VERSION:=1.1}
+: ${VERSION:=1.0}
 : ${TYPE="basic"}
 
 LANGUAGE=`echo "$LANGUAGE" | tr [:upper:] [:lower:]`
@@ -56,10 +56,6 @@ echo "Installing chaincode on peer0.manufacturer.pharma-network.com ..."
 installChaincode 0 'transporter' $VERSION
 echo "Installing chaincode on peer0.manufacturer.pharma-network.com ..."
 installChaincode 1 'transporter' $VERSION
-
-# Instantiate chaincode on the channel using peer0.iit
-echo "Instantiating chaincode on channel using peer0.manufacturer.pharma-network.com ..."
-instantiateChaincode 0 'manufacturer' $VERSION
 
 echo
 echo "========= All GOOD, Chaincode CERTNET Is Now Installed & Instantiated On Certification Network =========== "
