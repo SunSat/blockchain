@@ -16,7 +16,7 @@ class ManufactureContract extends Contract {
 		console.log('The Contract \'org.pharma-network.pharmanet.ManufactureContract\' instrntiate successfully.');
     }
 
-	async registerCompany (ctx, companyCRN, companyName, location, organisationRole) {
+	async registerCompany (ctx, companyCrn, companyName, location, organisationRole) {
 		let commonContract = new CommonContract();
 		let requestor = ctx.clientIdentity.getID();
 		let isValid = pharmanetUtil.checkValidRequestor(requestor,constants.MANUFACTURER_NETWORK);
@@ -33,20 +33,20 @@ class ManufactureContract extends Contract {
 			return;
 		}
 
-		isValid = await commonContract.isCompanyAvailable(ctx,companyCRN);
+		isValid = await commonContract.isCompanyAvailable(ctx,companyCrn);
 		console.log("The requested company is available ? : " + isValid);
 		if(isValid) {
-			throw new Error('The Company was already registred with same CRN Number : ' + companyCRN);
+			throw new Error('The Company was already registred with same Crn Number : ' + companyCrn);
 			return;
 		}
 
-		let newCompany  = commonContract.registerCompany(ctx, companyCRN, companyName, location, organisationRole);
+		let newCompany  = commonContract.registerCompany(ctx, companyCrn, companyName, location, organisationRole);
 		console.log("The new Company was create successfully. " + newCompany);
 		return newCompany;
 
 	}
 
-    async addDrug(ctx, drugName, serialNo, mfgData, expDate, companyCRN) {
+    async addDrug(ctx, drugName, serialNo, mfgData, expDate, companyCrn) {
 		let commonContract = new CommonContract();
 		let requestor = ctx.clientIdentity.getID();
         let isValid = pharmanetUtil.checkValidRequestor(requestor,constants.MANUFACTURER_NETWORK);
@@ -57,10 +57,10 @@ class ManufactureContract extends Contract {
 			return;
         }
 
-		isValid = await commonContract.isCompanyAvailable(ctx,companyCRN);
+		isValid = await commonContract.isCompanyAvailable(ctx,companyCrn);
 		console.log("The requested company is available ? : " + isValid);
 		if(!isValid) {
-			throw new Error('There is no such company with the Company CRN : ' + companyCRN);
+			throw new Error('There is no such company with the Company Crn : ' + companyCrn);
 			return;
 		}
 
@@ -78,7 +78,7 @@ class ManufactureContract extends Contract {
 			serialNo: serialNo,
 			mfgData: mfgData,
 			expDate : expDate,
-			companyCRN : companyCRN,
+			companyCrn : companyCrn,
 			createdAt: new Date(),
 			modifiedAt: new Date(),
 		};
@@ -88,7 +88,7 @@ class ManufactureContract extends Contract {
 
 		return newDrug;
 	}
-	async getCompany(ctx, companyCRN) {
+	async getCompany(ctx, companyCrn) {
 
 	}
 }

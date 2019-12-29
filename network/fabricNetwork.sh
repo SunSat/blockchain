@@ -407,8 +407,8 @@ elif [ "$MODE" == "install" ]; then
   EXPMODE="Installing chaincode"
 elif [ "$MODE" == "generate" ]; then
   EXPMODE="Generating certs and genesis block"
-elif [ "$MODE" == "inst" ]; then
-  EXPMODE="inst"
+elif [ "$MODE" == "instantiate" ]; then
+  EXPMODE="instantiate"
 elif [ "$MODE" == "node" ]; then
   EXPMODE="node"
 elif [ "$MODE" == "full" ]; then
@@ -474,7 +474,7 @@ elif [ "${MODE}" == "update" ]; then ## Run the composer setup commands
   updateChaincode
 elif [ "${MODE}" == "install" ]; then ## Run the composer setup commands
   installChaincode
-elif [ "${MODE}" == "inst" ]; then ## Run the composer setup commands
+elif [ "${MODE}" == "instantiate" ]; then ## Run the composer setup commands
   instantiateChaincode
 elif [ "${MODE}" == "node" ]; then ## Run the composer setup commands
   #rm -rf ../chaincode/node_modules

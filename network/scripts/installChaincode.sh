@@ -57,6 +57,9 @@ installChaincode 0 'transporter' $VERSION
 echo "Installing chaincode on peer0.manufacturer.pharma-network.com ..."
 installChaincode 1 'transporter' $VERSION
 
+#echo "instantiate chaincode on peer0.manufacturer.pharma-network.com ..."
+#instantiateChaincode 0 'manufacturer' $VERSION
+
 echo
 echo "========= All GOOD, Chaincode CERTNET Is Now Installed & Instantiated On Certification Network =========== "
 echo

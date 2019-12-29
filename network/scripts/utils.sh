@@ -148,6 +148,10 @@ instantiateChaincode() {
   setGlobals "$PEER" "$ORG"
   VERSION=${3:-1.0}
 
+  echo "CORE_PEER_LOCALMSPID=$CORE_PEER_LOCALMSPID"
+  echo "CORE_PEER_MSPCONFIGPATH=$CORE_PEER_MSPCONFIGPATH"
+  echo "CORE_PEER_ADDRESS=$CORE_PEER_ADDRESS"
+
   # while 'peer chaincode' command can get the orderer endpoint from the peer
   # (if join was successful), let's supply it directly as we know it using
   # the "-o" option

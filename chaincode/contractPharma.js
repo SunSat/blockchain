@@ -60,7 +60,7 @@ class ContractPharma extends Contract {
 		return newCompany;
 	}
 
-	async createShipment (ctx, buyerCrn, drugName, listOfAssets, transporterCRN ) {
+	async createShipment (ctx, buyerCrn, drugName, listOfAssets, transporterCrn ) {
 
 		let requestor = ctx.clientIdentity.getID();
 		let isValid = pharmanetUtil.checkValidRequestor(requestor,commonConstants.DISTRIBUTOR_NETWORK) ||
@@ -82,15 +82,15 @@ class ContractPharma extends Contract {
 		console.log("The buyer company is available ? : " + isValid);
 
 		if(!isValid) {
-			throw new Error('There is no such buyer company with the buyer CRN : ' + buyerCrn);
+			throw new Error('There is no such buyer company with the buyer Crn : ' + buyerCrn);
 			return;
 		}
 
-		const transporterKey = ctx.stub.createCompositeKey(commonConstants.PHARMANET_KEY_COMPANY, [transporterCRN]);
+		const transporterKey = ctx.stub.createCompositeKey(commonConstants.PHARMANET_KEY_COMPANY, [transporterCrn]);
 		isValid = await this.isCompanyAvailable(ctx,transporterKey);
 		console.log("The Transporter company is available ? : " + isValid);
 		if(!isValid) {
-			throw new Error('There is no such Transporter company registred with the CRN : ' + transporterCRN);
+			throw new Error('There is no such Transporter company registred with the Crn : ' + transporterCrn);
 			return;
 		}
 
@@ -150,7 +150,7 @@ class ContractPharma extends Contract {
 		let shipmentObject = {
 			creator : po.sellerCrn,
 			assets: listOfDrugKey,
-			transporter: transporterCRN,
+			transporter: transporterCrn,
 			status: "in-transit",
 			shipTo : po.buyerCrn
 		};
@@ -165,7 +165,7 @@ class ContractPharma extends Contract {
 
 		for(const drugObj of listOfDrugGoingToSell) {
 			let drugKey = ctx.stub.createCompositeKey(commonConstants.PHARMANET_KEY_DRUGS,[drugObj.drugName,drugObj.serialNo]);
-			drugObj.owner = transporterCRN;
+			drugObj.owner = transporterCrn;
 			//drugObj.shipmentKeys.push(shipmentKey);
 			console.log("The Drug State has been updated successfully And the Drug Obj is : " + JSON.stringify(drugObj));
 			await ctx.stub.putState(drugKey, Buffer.from(JSON.stringify(drugObj)));
@@ -199,7 +199,7 @@ class ContractPharma extends Contract {
 
 	}
 
-	async updateShipment(ctx, buyerCrn, drugName, transporterCRN) {
+	async updateShipment(ctx, buyerCrn, drugName, transporterCrn) {
 
 		let requestor = ctx.clientIdentity.getID();
 		let isValid = pharmanetUtil.checkValidRequestor(requestor,commonConstants.DISTRIBUTOR_NETWORK) ||
@@ -220,15 +220,15 @@ class ContractPharma extends Contract {
 		isValid = await this.isCompanyAvailable(ctx,buyerKey);
 		console.log("The buyer company is available ? : " + isValid);
 		if(!isValid) {
-			throw new Error('There is no such buyer company with the buyer CRN : ' + buyerCrn);
+			throw new Error('There is no such buyer company with the buyer Crn : ' + buyerCrn);
 			return;
 		}
 
-		const transporterKey = ctx.stub.createCompositeKey(commonConstants.PHARMANET_KEY_COMPANY, [transporterCRN]);
+		const transporterKey = ctx.stub.createCompositeKey(commonConstants.PHARMANET_KEY_COMPANY, [transporterCrn]);
 		isValid = await this.isCompanyAvailable(ctx,transporterKey);
 		console.log("The Transporter company is available ? : " + isValid);
 		if(!isValid) {
-			throw new Error('There is no such Transporter company registred with the CRN : ' + transporterCRN);
+			throw new Error('There is no such Transporter company registred with the Crn : ' + transporterCrn);
 			return;
 		}
 
@@ -251,8 +251,8 @@ class ContractPharma extends Contract {
 				return;
 			}
 			let drugObject = await this.getRegistredDrug(ctx,drugKey);
-			if(drugObject.owner != transporterCRN) {
-				throw new Error("The Requested Drug owner is not the transporterCRN. Hence Your not authorized to shift this product. Durg Serial number is : " + drugKey[1]);
+			if(drugObject.owner != transporterCrn) {
+				throw new Error("The Requested Drug owner is not the transporterCrn. Hence Your not authorized to shift this product. Durg Serial number is : " + drugKey[1]);
 				return;
 			}
 			listOfDrugGoingToSell.push(drugObject);
@@ -273,7 +273,7 @@ class ContractPharma extends Contract {
 	}
 
 
-	async retailDrug (ctx, drugName, serialNo, retailerCRN, customerAadhar) {
+	async retailDrug (ctx, drugName, serialNo, retailerCrn, customerAadhar) {
 
 		let requestor = ctx.clientIdentity.getID();
 		let isValid = pharmanetUtil.checkValidRequestor(requestor,commonConstants.RETAILER_NETWORK) ||
@@ -283,12 +283,12 @@ class ContractPharma extends Contract {
 			return;
 		}
 
-		const retailerKey = ctx.stub.createCompositeKey(commonConstants.PHARMANET_KEY_COMPANY, [retailerCRN]);
+		const retailerKey = ctx.stub.createCompositeKey(commonConstants.PHARMANET_KEY_COMPANY, [retailerCrn]);
 		isValid = await this.isCompanyAvailable(ctx,retailerKey);
 		console.log("The retailer is available ? : " + isValid);
 
 		if(!isValid) {
-			throw new Error('There is no such retailer company with the buyer CRN : ' + retailerCRN);
+			throw new Error('There is no such retailer company with the buyer Crn : ' + retailerCrn);
 			return;
 		}
 
@@ -298,7 +298,7 @@ class ContractPharma extends Contract {
 			return;
 		}
 		let drugObject = await this.getRegistredDrug(ctx,drugKey);
-		if(drugObject.owner != retailerCRN) {
+		if(drugObject.owner != retailerCrn) {
 			throw new Error("The Requested Drug owner is not the seller. Hence Your not authorized to shift this product. Durg Serial number is : " + drugObject.serialNo);
 			return;
 		}
@@ -325,7 +325,7 @@ class ContractPharma extends Contract {
 		isValid = await this.isCompanyAvailable(ctx,manufacturerKey);
 		console.log("The Manufacturer company is available ? : " + isValid);
 		if(!isValid) {
-			throw new Error('There is no such buyer company with the buyer CRN : ' + drugObject.manufacturer);
+			throw new Error('There is no such buyer company with the buyer Crn : ' + drugObject.manufacturer);
 			return;
 		}
 		let manufacturerObj = await this.getRegistredCompany(ctx,manufacturerKey);

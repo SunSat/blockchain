@@ -30,7 +30,7 @@ class ContractManufacturer extends Contract {
 		isValid = await commonContract.isCompanyAvailable(ctx,companyKey);
 		console.log("The requested company is available ? : " + isValid);
 		if(!isValid) {
-			throw new Error('There is no such company with the Company CRN : ' + companyCrn);
+			throw new Error('There is no such company with the Company Crn : ' + companyCrn);
 			return;
 		}
 
@@ -110,7 +110,7 @@ class ContractManufacturer extends Contract {
 		const companyKey = ctx.stub.createCompositeKey(commonConstants.PHARMANET_KEY_COMPANY, [companyCrn]);
 		isValid = await commonContract.isCompanyAvailable(ctx,companyKey);
 		if(!isValid) {
-			throw new Error('Invalid Company There is no such Company Available with the company CRN' +companyCrn);
+			throw new Error('Invalid Company There is no such Company Available with the company Crn' +companyCrn);
 			return;
 		}
 		return await  commonContract.getRegistredCompany(ctx, companyKey);

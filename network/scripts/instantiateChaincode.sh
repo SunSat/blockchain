@@ -21,7 +21,6 @@ TYPE="$5"
 : ${TYPE="basic"}
 
 LANGUAGE=`echo "$LANGUAGE" | tr [:upper:] [:lower:]`
-#ORGS="manufacturer distributor retailer consumer transporter"
 ORGS="manufacturer distributor retailer consumer transporter"
 TIMEOUT=15
 
