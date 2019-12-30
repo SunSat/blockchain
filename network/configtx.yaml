@@ -204,7 +204,7 @@ Profiles:
           - *consumer
           - *transporter
 
-  PharmaNetworkChannel:
+  PharmaChannel:
     Consortium: PharmaNetConsortium
     Application:
       <<: *ApplicationDefaults

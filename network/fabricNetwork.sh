@@ -177,7 +177,7 @@ function networkDown() {
   if [ "$MODE" != "restart" ]; then
     # Bring down the network, deleting the volumes
     # Delete any ledger backups
-    docker run -v "$PWD":/tmp/pharmanetworkchannel --rm hyperledger/fabric-tools:"$IMAGETAG" rm -Rf /tmp/pharmanetworkchannel/ledgers-backup
+    docker run -v "$PWD":/tmp/pharmachannel --rm hyperledger/fabric-tools:"$IMAGETAG" rm -Rf /tmp/pharmachannel/ledgers-backup
     #Cleanup the chaincode containers
     clearContainers
     #Cleanup images
@@ -284,7 +284,7 @@ function generateChannelArtifacts() {
   echo "### Generating channel configuration transaction 'channel.tx' ###"
   echo "#################################################################"
   set -x
-  configtxgen -profile PharmaNetworkChannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID "$CHANNEL_NAME"
+  configtxgen -profile PharmaChannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID "$CHANNEL_NAME"
   sleep 1
   res=$?
   set +x
@@ -298,7 +298,7 @@ function generateChannelArtifacts() {
   echo "#######    Generating anchor peer update for iitMSP   ##########"
   echo "#################################################################"
   set -x
-  configtxgen -profile PharmaNetworkChannel -outputAnchorPeersUpdate ./channel-artifacts/manufacturerMSPanchors.tx -channelID "$CHANNEL_NAME" -asOrg manufacturerMSP
+  configtxgen -profile PharmaChannel -outputAnchorPeersUpdate ./channel-artifacts/manufacturerMSPanchors.tx -channelID "$CHANNEL_NAME" -asOrg manufacturerMSP
   sleep 1
   res=$?
   set +x
@@ -312,7 +312,7 @@ function generateChannelArtifacts() {
   echo "#######    Generating anchor peer update for iitMSP   ##########"
   echo "#################################################################"
   set -x
-  configtxgen -profile PharmaNetworkChannel -outputAnchorPeersUpdate ./channel-artifacts/distributorMSPanchors.tx -channelID "$CHANNEL_NAME" -asOrg distributorMSP
+  configtxgen -profile PharmaChannel -outputAnchorPeersUpdate ./channel-artifacts/distributorMSPanchors.tx -channelID "$CHANNEL_NAME" -asOrg distributorMSP
   sleep 1
   res=$?
   set +x
@@ -326,7 +326,7 @@ function generateChannelArtifacts() {
   echo "#######    Generating anchor peer update for iitMSP   ##########"
   echo "#################################################################"
   set -x
-  configtxgen -profile PharmaNetworkChannel -outputAnchorPeersUpdate ./channel-artifacts/retailerMSPanchors.tx -channelID "$CHANNEL_NAME" -asOrg retailerMSP
+  configtxgen -profile PharmaChannel -outputAnchorPeersUpdate ./channel-artifacts/retailerMSPanchors.tx -channelID "$CHANNEL_NAME" -asOrg retailerMSP
   sleep 1
   res=$?
   set +x
@@ -340,7 +340,7 @@ function generateChannelArtifacts() {
   echo "#######    Generating anchor peer update for iitMSP   ##########"
   echo "#################################################################"
   set -x
-  configtxgen -profile PharmaNetworkChannel -outputAnchorPeersUpdate ./channel-artifacts/consumerMSPanchors.tx -channelID "$CHANNEL_NAME" -asOrg consumerMSP
+  configtxgen -profile PharmaChannel -outputAnchorPeersUpdate ./channel-artifacts/consumerMSPanchors.tx -channelID "$CHANNEL_NAME" -asOrg consumerMSP
   sleep 1
   res=$?
   set +x
@@ -354,7 +354,7 @@ function generateChannelArtifacts() {
   echo "#######    Generating anchor peer update for iitMSP   ##########"
   echo "#################################################################"
   set -x
-  configtxgen -profile PharmaNetworkChannel -outputAnchorPeersUpdate ./channel-artifacts/transporterMSPanchors.tx -channelID "$CHANNEL_NAME" -asOrg transporterMSP
+  configtxgen -profile PharmaChannel -outputAnchorPeersUpdate ./channel-artifacts/transporterMSPanchors.tx -channelID "$CHANNEL_NAME" -asOrg transporterMSP
   sleep 1
   res=$?
   set +x
@@ -371,7 +371,7 @@ CLI_TIMEOUT=15
 # default for delay between commands
 CLI_DELAY=5
 # channel name defaults to "certificationchannel"
-CHANNEL_NAME="pharmanetworkchannel"
+CHANNEL_NAME="pharmachannel"
 # version for updating chaincode
 VERSION_NO=1.0
 # type of chaincode to be installed

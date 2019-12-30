@@ -28,7 +28,7 @@ client:
       orderer: 300
 
 channels:
-  pharmanetworkchannel:
+  pharmachannel:
     orderers:
       - orderer.pharma-network.com
     peers:

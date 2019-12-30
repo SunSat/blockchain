@@ -9,7 +9,7 @@ module.exports = Object.freeze({
     RETAILER : 'retailer',
     CONSUMER : 'consumer',
     TRANSPORTER : 'transporter',
-    CHANNEL : 'pharmanetworkchannel',
+    CHANNEL : 'pharmachannel',
     PEER0 : 'peer0',
     PEER1 : 'peer1',
     MANUFACTURER_MSP : 'manufacturerMSP',

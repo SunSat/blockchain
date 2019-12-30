@@ -48,8 +48,8 @@ async function getManufacturerCommonContractInstance() {
 	console.log('.....Connecting to Fabric Gateway - in getManufacturerCommonContractInstance');
 	await commonGateway.connect(connectionProfile, connectionOptions);
 
-	console.log('.....Connecting to channel - pharmanetworkchannel in getManufacturerCommonContractInstance');
-	const channel = await commonGateway.getNetwork('pharmanetworkchannel');
+	console.log('.....Connecting to channel - pharmachannel in getManufacturerCommonContractInstance');
+	const channel = await commonGateway.getNetwork('pharmachannel');
 
 	console.log('.....Connecting to Certnet Smart Contract in getManufacturerCommonContractInstance');
 	let contract = await channel.getContract('pharmanet', 'org.pharma-network.pharmanet');
@@ -89,8 +89,8 @@ async function getDistributorCommonContractInstance() {
 	await distributorCommonGateway.connect(connectionProfile, connectionOptions);
 
 	// Access certification channel
-	console.log('.....Connecting to channel - pharmanetworkchannel');
-	const channel = await distributorCommonGateway.getNetwork('pharmanetworkchannel');
+	console.log('.....Connecting to channel - pharmachannel');
+	const channel = await distributorCommonGateway.getNetwork('pharmachannel');
 
 	// Get instance of deployed Certnet contract
 	// @param Name of chaincode
@@ -132,7 +132,7 @@ async function getRetailerCommonContractInstance() {
 	await retailerGateway.connect(connectionProfile, connectionOptions);
 
 	// Access certification channel
-	const channel = await retailerGateway.getNetwork('pharmanetworkchannel');
+	const channel = await retailerGateway.getNetwork('pharmachannel');
 
 	// Get instance of deployed Certnet contract
 	// @param Name of chaincode
@@ -173,7 +173,7 @@ async function getTransporterCommonContractInstance() {
 	await transporterGateway.connect(connectionProfile, connectionOptions);
 
 	// Access certification channel
-	const channel = await transporterGateway.getNetwork('pharmanetworkchannel');
+	const channel = await transporterGateway.getNetwork('pharmachannel');
 
 	// Get instance of deployed Certnet contract
 	// @param Name of chaincode
@@ -214,7 +214,7 @@ async function getConsumerCommonContractInstance() {
 	await consumerGateway.connect(connectionProfile, connectionOptions);
 
 	// Access certification channel
-	const channel = await consumerGateway.getNetwork('pharmanetworkchannel');
+	const channel = await consumerGateway.getNetwork('pharmachannel');
 
 	// Get instance of deployed Certnet contract
 	// @param Name of chaincode
@@ -256,8 +256,8 @@ async function getManufacturerContractInstance() {
 	await manufacturerGateway.connect(connectionProfile, connectionOptions);
 
 	// Access certification channel
-	console.log('.....Connecting to channel - pharmanetworkchannel');
-	const channel = await manufacturerGateway.getNetwork('pharmanetworkchannel');
+	console.log('.....Connecting to channel - pharmachannel');
+	const channel = await manufacturerGateway.getNetwork('pharmachannel');
 
 	// Get instance of deployed Certnet contract
 	// @param Name of chaincode
@@ -299,8 +299,8 @@ async function getDistributorContractInstance() {
 	await distributorGateway.connect(connectionProfile, connectionOptions);
 
 	// Access certification channel
-	console.log('.....Connecting to channel - pharmanetworkchannel');
-	const channel = await distributorGateway.getNetwork('pharmanetworkchannel');
+	console.log('.....Connecting to channel - pharmachannel');
+	const channel = await distributorGateway.getNetwork('pharmachannel');
 
 	// Get instance of deployed Certnet contract
 	// @param Name of chaincode
@@ -342,8 +342,8 @@ async function getRetailerContractInstance() {
 	await retailerGateway.connect(connectionProfile, connectionOptions);
 
 	// Access certification channel
-	console.log('.....Connecting to channel - pharmanetworkchannel');
-	const channel = await retailerGateway.getNetwork('pharmanetworkchannel');
+	console.log('.....Connecting to channel - pharmachannel');
+	const channel = await retailerGateway.getNetwork('pharmachannel');
 
 	// Get instance of deployed Certnet contract
 	// @param Name of chaincode
