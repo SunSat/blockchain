@@ -23,8 +23,7 @@ class ContractDistributorRetailer extends Contract {
 		let commonContract = new ContractPharma();
 		let requestor = ctx.clientIdentity.getID();
 		let isValid = pharmanetUtil.checkValidRequestor(requestor,commonConstants.DISTRIBUTOR_NETWORK) ||
-			pharmanetUtil.checkValidRequestor(requestor,commonConstants.RETAILER_NETWORK) ||
-			pharmanetUtil.checkValidRequestor(requestor,commonConstants.MANUFACTURER_NETWORK);
+			pharmanetUtil.checkValidRequestor(requestor,commonConstants.RETAILER_NETWORK);
 
 		console.log("The requested requestor value is : ", requestor + ", & The Requestor is Valid : " + isValid);
 		if(!isValid) {

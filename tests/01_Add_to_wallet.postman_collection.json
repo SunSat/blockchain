@@ -1,0 +1,185 @@
+{
+	"info": {
+		"_postman_id": "37763231-7a7a-4204-9a8e-62dff12522ee",
+		"name": "01_Add_to_wallet",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1_AddToManufactureWallet",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"organization\":\"manufacturer\",\n\t\"certificatePath\":\"/Users/sathishkumar_su/personal/blockchain/git/drug-counterfeiting_org/network/crypto-config/peerOrganizations/manufacturer.pharma-network.com/users/Admin@manufacturer.pharma-network.com/msp/signcerts/Admin@manufacturer.pharma-network.com-cert.pem\",\n\t\"privateKeyPath\":\"/Users/sathishkumar_su/personal/blockchain/git/drug-counterfeiting_org/network/crypto-config/peerOrganizations/manufacturer.pharma-network.com/users/Admin@manufacturer.pharma-network.com/msp/keystore/d5a4efd1ad5cd7cab757afa3f25a86afe79bc1725d4349cb3ebfbd31b51b48f3_sk\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/addToWallet",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"addToWallet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2_AddToDistributorWallet",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"organization\":\"distributor\",\n\t\"certificatePath\":\"/Users/sathishkumar_su/personal/blockchain/git/drug-counterfeiting_org/network/crypto-config/peerOrganizations/distributor.pharma-network.com/users/Admin@distributor.pharma-network.com/msp/signcerts/Admin@distributor.pharma-network.com-cert.pem\",\n\t\"privateKeyPath\":\"/Users/sathishkumar_su/personal/blockchain/git/drug-counterfeiting_org/network/crypto-config/peerOrganizations/distributor.pharma-network.com/users/Admin@distributor.pharma-network.com/msp/keystore/13094a2cb2c8b4bf1fcfe340821b4c09f3407a4e76b22eb3dc574fc9b524b04e_sk\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/addToWallet",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"addToWallet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3_AddToRetailerWallet",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"organization\":\"retailer\",\n\t\"certificatePath\":\"/Users/sathishkumar_su/personal/blockchain/git/drug-counterfeiting_org/network/crypto-config/peerOrganizations/retailer.pharma-network.com/users/Admin@retailer.pharma-network.com/msp/signcerts/Admin@retailer.pharma-network.com-cert.pem\",\n\t\"privateKeyPath\":\"/Users/sathishkumar_su/personal/blockchain/git/drug-counterfeiting_org/network/crypto-config/peerOrganizations/retailer.pharma-network.com/users/Admin@retailer.pharma-network.com/msp/keystore/dd74e351a52fdf5e60cbb4888eb8973185173ca87c6ff2598a5f92f3e74741dd_sk\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/addToWallet",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"addToWallet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4_AddToTransporterWallet",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"organization\":\"transporter\",\n\t\"certificatePath\":\"/Users/sathishkumar_su/personal/blockchain/git/drug-counterfeiting_org/network/crypto-config/peerOrganizations/transporter.pharma-network.com/users/Admin@transporter.pharma-network.com/msp/signcerts/Admin@transporter.pharma-network.com-cert.pem\",\n\t\"privateKeyPath\":\"/Users/sathishkumar_su/personal/blockchain/git/drug-counterfeiting_org/network/crypto-config/peerOrganizations/transporter.pharma-network.com/users/Admin@transporter.pharma-network.com/msp/keystore/058da1e2457f42c6b840da6f4fc26998ecc651172ff1c0c313cd5e4815078014_sk\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/addToWallet",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"addToWallet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5_AddToConsumerWallet",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"organization\":\"consumer\",\n\t\"certificatePath\":\"/Users/sathishkumar_su/personal/blockchain/git/drug-counterfeiting_org/network/crypto-config/peerOrganizations/consumer.pharma-network.com/users/Admin@consumer.pharma-network.com/msp/signcerts/Admin@consumer.pharma-network.com-cert.pem\",\n\t\"privateKeyPath\":\"/Users/sathishkumar_su/personal/blockchain/git/drug-counterfeiting_org/network/crypto-config/peerOrganizations/consumer.pharma-network.com/users/Admin@consumer.pharma-network.com/msp/keystore/079e4a9deeff90fb37c20d927f3d8de0ddfed79864efdbd0d96a2b7b41d4f5d0_sk\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/addToWallet",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"addToWallet"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

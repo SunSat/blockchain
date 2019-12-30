@@ -122,12 +122,8 @@ function checkPrereqs() {
 
 # Generate the needed certificates, the genesis block and start the network.
 function networkUp() {
-  rm -rf channel-artifacts/*
-  rm -rf crypto-config/*
   checkPrereqs
-  generateCerts
   #replacePrivateKey
-  generateChannelArtifacts
   # Start the docker containers using compose file
   IMAGE_TAG=$IMAGETAG docker-compose -f "$COMPOSE_FILE" up -d 2>&1
   docker ps -a
@@ -187,7 +183,7 @@ function networkDown() {
     #Cleanup images
     removeUnwantedImages
     # remove orderer block and other channel configuration transactions and certs
-    rm -rf channel-artifacts/* crypto-config/*
+    #rm -rf channel-artifacts/* crypto-config/*
   fi
 }
 

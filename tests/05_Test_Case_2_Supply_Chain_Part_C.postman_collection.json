@@ -1,0 +1,45 @@
+{
+	"info": {
+		"_postman_id": "f87553b2-9446-4bbf-b012-c9cec20c2dd4",
+		"name": "05_Test_Case_2_Supply_Chain_Part_C",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "016_Retail_Drug",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"organizationRole\":\"retailer\",\n\t\"drugName\":\"Paracetamol\",\n\t\"serialNo\":\"0001\",\n\t\"retailerCrn\":\"RET001\",\n\t\"customerAadhar\":\"AAD001\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/retailDrug",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"retailDrug"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

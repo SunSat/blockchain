@@ -21,7 +21,7 @@ docker system prune -a --volumes
 y
 docker rm -f $(docker ps -aq) 
 
-cd /Users/sathishkumar_su/personal/blockchain/fabric/drug-couterfeiting/network
+cd /Users/sathishkumar_su/personal/blockchain/fabric/drug/network
 
 . fabricNetwork.sh up -v 1.1
 y
@@ -176,7 +176,7 @@ Instantiation of chin code container.
 CORE_PEER_LOCALMSPID="manufacturerMSP"
 CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/manufacturer.pharma-network.com/users/Admin@manufacturer.pharma-network.com/msp
 CORE_PEER_ADDRESS=peer0.manufacturer.pharma-network.com:7051
-peer chaincode instantiate -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -l node -v 1.1 -c '{"Args":["org.pharma-network.pharmanet:instantiate"]}' -P "OR ('manufacturerMSP.member','distributorMSP.member','retailerMSP.member','consumerMSP.member','transporterMSP.member')"
+peer chaincode instantiate -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -l node -v 1.0 -c '{"Args":["org.pharma-network.pharmanet:instantiate"]}' -P "OR ('manufacturerMSP.member','distributorMSP.member','retailerMSP.member','consumerMSP.member','transporterMSP.member')"
 
 Install and Instantiate both were done.
 
@@ -190,17 +190,149 @@ Invoke the function.
 New Terminal:
 
 docker exec -it peer0.manufacturer.pharma-network.com /bin/bash
-docker exec -it peer0.consumer.pharma-network.com /bin/bash
+docker exec -it peer0.distributor.pharma-network.com /bin/bash
 
-peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n phanetwork -c '{"Args":["manufacturerContract:registerCompany","M-4","Sathish Kumar","chennai","manufacturer"]}'
+/** - Registrator Company **/
 
-peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n phanetwork -c '{"Args":["manufacturerContract:addDrug","Corex","11111","12-12-12","13-13-13","M-4"]}'
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet:registerCompany","MAN001","Sun Pharma","Chennai","manufacturer"]}'
+sleep 1
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet:registerCompany","MAN002","Sun Pharma Net","Tirupattur","manufacturer"]}'
+sleep 1
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet:registerCompany","TRA001","FedEx","Delhi","transporter"]}'
+sleep 1
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet:registerCompany","TRA002","Blue Dart","Bangalore","transporter"]}'
+sleep 1
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet:registerCompany","DIST001","VG Pharma","Vizag","distributor"]}'
+sleep 1
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet:registerCompany","DIST002","Sat VSAS","Tirupattur","distributor"]}'
+sleep 1
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet:registerCompany","RET001","upgrad","Mumbai","retailer"]}'
+sleep 1
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet:registerCompany","RET002","Sathish","Tirupattur","retailer"]}'
+sleep 1
 
 
-peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n phanetwork -c '{"Args":["org.pharma-network.phanetwork.manufacture:registerCompany","M-4","Sathish Kumar","chennai","manufacturer"]}'
+
+/** - Add drugs - **/
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet-manufactureContract:addDrug","paracetamol00004","0001","11-11-19","11-11-19","MAN002"]}'
+sleep 1
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet-manufactureContract:addDrug","paracetamol00004","0002","11-11-19","11-11-19","MAN001"]}'
+sleep 1
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet-manufactureContract:addDrug","paracetamol00004","0003","11-11-19","11-11-19","MAN001"]}'
+sleep 1
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet-manufactureContract:addDrug","paracetamol00004","0004","11-11-19","11-11-19","MAN001"]}'
+sleep 1
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet-manufactureContract:addDrug","paracetamol00004","0005","11-11-19","11-11-19","MAN001"]}'
+sleep 1
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet-manufactureContract:addDrug","paracetamol00004","0006","11-11-19","11-11-19","MAN002"]}'
+sleep 1
+
+/** - Create PO Order -**/
 
 
-peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n phanetwork -c '{"Args":["org.pharma-network.phanetwork.manufacture:registerCompany","M-4","Sathish Kumar","chennai","manufacturer"]}'
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet-DistributorRetailer:createPO","RET002","DIST002","paracetamol00004","2"]}'
+sleep 1
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet-DistributorRetailer:createPO","DIST002","MAN002","paracetamol00004","2"]}'
+sleep 1
+
+/** -Create Shipment **/
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet:createShipment","DIST002","paracetamol00004","0001,0006","TRA002"]}'
+sleep 1
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet:createShipment","RET002","paracetamol00004","0001,0006","TRA001"]}'
+sleep 1
+
+
+/** - Update Shipment **/
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet:updateShipment","DIST002","paracetamol00004","TRA002"]}'
+sleep 1
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet:updateShipment","RET002","paracetamol00004","TRA001"]}'
+sleep 1
+
+/** - Retail Drug - **/
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet:retailDrug","paracetamol00004","0001","RET002","sat111"]}'
+sleep 1
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet:retailDrug","paracetamol00004","0002","RET002","sat111"]}'
+sleep 1
+
+/** - View History -**/
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet:viewHistory","paracetamol00004","0001"]}'
+
+/** - View CurrentState -**/
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet:viewDrugCurrentState","paracetamol00004","0001"]}'
+/** - Get The Registratered Company Details **/
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet-manufactureContract:getCompany","MAN001"]}'
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet-manufactureContract:getCompany","TRA001"]}'
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet-manufactureContract:getCompany","TRA002"]}'
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet-manufactureContract:getCompany","DIST001"]}'
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet-manufactureContract:getCompany","RET002"]}'
+
+/** - Get Drgu Details **/
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet-manufactureContract:getDrug","paracetamol00004","0001"]}'
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet-manufactureContract:getDrug","paracetamol00004","0002"]}'
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet-manufactureContract:getDrug","paracetamol00004","0004"]}'
+
+
+/** Testing **/
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet:registerCompany","MAN0003","Sun Pharma","Chennai","manufacturer"]}'
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet:registerCompany","TRA0003","FedEx","Delhi","transporter"]}'
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet:registerCompany","TRA1003","Blue Dart","Bangalore","transporter"]}'
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet:registerCompany","DIST0003","VG Pharma","Vizag","distributor"]}'
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet:registerCompany","RET0003","upgrad","Mumbai","retailer"]}'
+
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet-manufactureContract:addDrug","Best","D10003","11-11-19","11-11-19","MAN001"]}'
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet-manufactureContract:addDrug","Corex","D20003","11-11-19","11-11-19","MAN001"]}'
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet-manufactureContract:addDrug","Corex","D30003","11-11-19","11-11-19","MAN001"]}'
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet-manufactureContract:addDrug","Corex","D40003","11-11-19","11-11-19","MAN001"]}'
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet:registerCompany","R-1","R-1","chennai","retailer"]}'
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet:registerCompany","R-2","R-2","chennai","retailer"]}'
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet:registerCompany","D-1","D-1","chennai","distributor"]}'
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet:registerCompany","D-2","D-2","chennai","distributor"]}'
+
+
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet-DistributorRetailer:createPO","D-1","M-1","sample","1"]}'
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet-DistributorRetailer:createPO","R-1","D-1","sample","1"]}'
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet-DistributorRetailer:createPO","R-1","D-1","corex","1"]}'
+
+peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n pharmanet -c '{"Args":["org.pharma-network.pharmanet:getAllPoList","M-1"]}'
+
+
 
 peer chaincode invoke -o orderer.pharma-network.com:7050 -C pharmanetworkchannel -n phanetwork -c '{"Args":["org.pharma-network.phanetwork.student:createStudent","0003","Aakash Bansal","connect@aakashbansal.com"]}'
 

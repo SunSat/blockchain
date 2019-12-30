@@ -1,0 +1,115 @@
+{
+	"info": {
+		"_postman_id": "1c8973a2-ff46-42fe-9b4b-4f19e08800d1",
+		"name": "04_Test_Case_2_Supply_Chain_Part_B",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "011_CreatrePO_DISTRI_MANUFA",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"organizationRole\":\"retailer\",\n\t\"drugName\":\"Paracetamol\",\n\t\"quantity\":\"2\",\n\t\"buyerCrn\":\"RET001\",\n\t\"sellerCrn\":\"DIST001\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/createPO",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"createPO"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "014_CreatreShipment_DISTRI_RETAILER",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"organizationRole\":\"distributor\",\n\t\"drugName\":\"Paracetamol\",\n\t\"listOfAssets\":\"0001,0002\",\n\t\"buyerCrn\":\"RET001\",\n\t\"transporterCrn\":\"TRA001\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/createShipment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"createShipment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "015_Update_Shipment_TRANS_RETAIL",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"organizationRole\":\"transporter\",\n\t\"drugName\":\"Paracetamol\",\n\t\"buyerCrn\":\"RET001\",\n\t\"transporterCrn\":\"TRA001\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/updateShipment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"updateShipment"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

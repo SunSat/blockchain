@@ -2,7 +2,7 @@
 
 const {Contract} = require('fabric-contract-api');
 const commonConstants = require('./constantsContract');
-const pharmanetUtil = require('./pharmaNetworkUtil');
+const pharmanetUtil = require('../pharmaNetworkUtil');
 
 class CommonContract extends Contract {
 	

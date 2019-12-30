@@ -202,8 +202,7 @@ class ContractPharma extends Contract {
 	async updateShipment(ctx, buyerCrn, drugName, transporterCrn) {
 
 		let requestor = ctx.clientIdentity.getID();
-		let isValid = pharmanetUtil.checkValidRequestor(requestor,commonConstants.DISTRIBUTOR_NETWORK) ||
-			pharmanetUtil.checkValidRequestor(requestor,commonConstants.MANUFACTURER_NETWORK);
+		let isValid = pharmanetUtil.checkValidRequestor(requestor,commonConstants.TRANSPORTER_NETWORK);
 
 		console.log("The requested requestor value is : ", requestor + ", & The Requestor is Valid : " + isValid);
 		if(!isValid) {
@@ -276,8 +275,7 @@ class ContractPharma extends Contract {
 	async retailDrug (ctx, drugName, serialNo, retailerCrn, customerAadhar) {
 
 		let requestor = ctx.clientIdentity.getID();
-		let isValid = pharmanetUtil.checkValidRequestor(requestor,commonConstants.RETAILER_NETWORK) ||
-			pharmanetUtil.checkValidRequestor(requestor,commonConstants.MANUFACTURER_NETWORK);
+		let isValid = pharmanetUtil.checkValidRequestor(requestor,commonConstants.RETAILER_NETWORK);
 		if(!isValid) {
 			throw new Error('Invalid Requestor. Your are not authrozied to retail this drug as a new Company.');
 			return;
@@ -307,6 +305,7 @@ class ContractPharma extends Contract {
 
 		await ctx.stub.putState(drugKey, Buffer.from(JSON.stringify(drugObject)));
 		console.log("------The Durg Object update successfully. And the Object is :---- " + JSON.stringify(drugObject));
+		drugObject.shipmentKeys = [];
 		return drugObject;
 
 	}
