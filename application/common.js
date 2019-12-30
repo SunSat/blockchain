@@ -22,7 +22,6 @@ async function registerCompany(companyCrn, companyName, location, organisationRo
         console.log(`error while invoking register company: \n\n ${error} \n\n`);
         throw new Error(error);
     } finally {
-        // Disconnect from the fabric gateway
         console.log('.....Disconnecting from Fabric Gateway');
         await contractObj.commonGateway.disconnect();
     }
